@@ -48,13 +48,13 @@ typedef struct Enemy
 {
     int health;
     int attack;
-    int defense;
 } Enemy_t;
 
 void printLab(Labyrinth_t * Labyrinth);
 void checkWhatTile(Labyrinth_t * Labyrinth, Player_t * player);
 void trap(Player_t * player);
 void blessing(Player_t * player);
+void fight(Player_t * player, Labyrinth_t * Labyrinth);
 int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction);
 void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction);
 
@@ -85,7 +85,7 @@ void checkWhatTile(Labyrinth_t * Labyrinth, Player_t * player)
     switch (Labyrinth->labyrinthlayout[player->position.x][player->position.y])
     {
         case 'e':
-            //return 2;
+            fight(player, Labyrinth);
             break;
         case 'b':
             blessing(player);
@@ -95,6 +95,9 @@ void checkWhatTile(Labyrinth_t * Labyrinth, Player_t * player)
             break;
         case 'f':
             //return 5;
+            break;
+        case 'v':
+            printf("You have already been here!\n");
             break;
         default:
             //return 1;
@@ -132,7 +135,42 @@ void blessing(Player_t * player)
     }
 }
 
+void fight(Player_t * Player, Labyrinth_t * Labyrinth)
+{
+    Enemy_t enemy;
+    if (Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] == 'f')
+    {
+        enemy.health = 50; enemy.attack = 10;
+        printf("\n\nYou encountered an enemy, with %d HP\n", enemy.health);
+    }
+    else
+    {
+        enemy.health = time(NULL)%10+1; enemy.attack = time(NULL)%5+1;
+        printf("\n\nYou encountered an enemy, with %d HP\n", enemy.health);
+    }
+    do
+    {
+        int damage = Player->attack;
+        enemy.health -= damage;
+        printf("\nYou dealt %d damage to the enemy!\n", damage);
+        if (enemy.health <= 0)
+        {
+            printf("\nYou killed the enemy!\n");
+            break;
+        }
+        damage = enemy.attack - Player->defense;
+        Player->health -= damage;
+        printf("\nThe enemy dealt %d damage to you!\n", damage);
+        if (Player->health <= 0)
+        {
+            printf("\nYou died!\n");
+            break;
+        }
+    } while (Player->health != 0 || enemy.health != 0);
+    
+    printf("\nYou have %d health left!\n", Player->health);
 
+}
 
 
 int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction)
@@ -191,7 +229,7 @@ void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction)
 
     if (legal == 1)
     {
-        printf("You can't move there!\n");
+        printf("\nYou can't move there!\n");
     }
     else if (legal == 0)
     {
