@@ -3,18 +3,6 @@
 #include <time.h>
 #include <string.h>
 
-enum TileType
-{
-    W = 0, // Wall
-    P = 1, // Path
-    E = 2, // Enemy
-    B = 3, // Blessing
-    T = 4, // Trap
-    F = 5, // Boss
-    V = 6, // Visited
-    C = 7, // Characters
-};
-
 enum direction
 {
     UP = 0,
@@ -79,31 +67,13 @@ void printLab(Labyrinth_t * Labyrinth)
         printf("\n");
         for (int j = 0; j < 10; j++)
         {
-            switch(Labyrinth->labyrinthlayout[i][j]){
-                case 0:
-                    printf("w ");
-                    break;
-                case 1:
-                    printf(". ");
-                    break;
-                case 2:
-                    printf("e ");
-                    break;
-                case 3:
-                    printf("b ");
-                    break;
-                case 4:
-                    printf("t ");
-                    break;
-                case 5:
-                    printf("f ");
-                    break;
-                case 6:
-                    printf("v ");
-                    break;
-                case 7:
-                    printf("c ");
-                    break;
+            if (Labyrinth->labyrinthlayout[i][j] == 'p')
+            {
+                printf(". ");
+            }
+            else
+            {
+            printf("%c ", Labyrinth->labyrinthlayout[i][j]);
             }
         }
     }
@@ -114,16 +84,16 @@ void checkWhatTile(Labyrinth_t * Labyrinth, Player_t * player)
 {
     switch (Labyrinth->labyrinthlayout[player->position.x][player->position.y])
     {
-        case E:
+        case 'e':
             //return 2;
             break;
-        case B:
+        case 'b':
             blessing(player);
             break;
-        case T:
+        case 't':
             trap(player);
             break;
-        case F:
+        case 'f':
             //return 5;
             break;
         default:
@@ -154,7 +124,7 @@ int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction)
     switch (direction)
     {
         case UP:
-            if (Labyrinth->labyrinthlayout[player->position.x - 1][player->position.y] == W)
+            if (Labyrinth->labyrinthlayout[player->position.x - 1][player->position.y] == 'w')
             {
                 return 1;
             }
@@ -164,7 +134,7 @@ int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction)
             }
             break;
         case DOWN:
-            if (Labyrinth->labyrinthlayout[player->position.x + 1][player->position.y] == W)
+            if (Labyrinth->labyrinthlayout[player->position.x + 1][player->position.y] == 'w')
             {
                 return 1;
             }
@@ -174,7 +144,7 @@ int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction)
             }
             break;
         case LEFT:
-            if (Labyrinth->labyrinthlayout[player->position.x][player->position.y - 1] == W)
+            if (Labyrinth->labyrinthlayout[player->position.x][player->position.y - 1] == 'w')
             {
                 return 1;
             }
@@ -184,7 +154,7 @@ int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction)
             }
             break;
         case RIGHT:
-            if (Labyrinth->labyrinthlayout[player->position.x][player->position.y + 1] == W)
+            if (Labyrinth->labyrinthlayout[player->position.x][player->position.y + 1] == 'w')
             {
                 return 1;
             }
@@ -212,24 +182,24 @@ void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction)
         switch (direction)
         {
             case UP:
-                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = V;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'v';
                 Player->position.x -= 1;
-                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = C;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'c';
                 break;
             case DOWN:
-                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = V;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'v';
                 Player->position.x += 1;
-                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = C;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'c';
                 break;
             case LEFT:
-                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = V;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'v';
                 Player->position.y -= 1;
-                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = C;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'c';
                 break;
             case RIGHT:
-                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = V;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'v';
                 Player->position.y += 1;
-                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = C;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'c';
                 break;
             default:
                 printf("Something went wrong!\n");

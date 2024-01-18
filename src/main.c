@@ -5,16 +5,16 @@ int main(void)
     Player_t player = { 8, 1, 20, 5, 2 };
 
     Labyrinth_t Labyrinth = 
-{   W, W, W, W, W, W, P, W, W, W,
-    W, B, E, P, W, W, F, P, B, W,
-    W, W, W, P, T, W, W, W, B, W,
-    W, B, P, E, W, W, W, W, P, W,
-    W, T, W, P, E, B, P, W, P, W,
-    W, B, W, W, P, W, B, P, E, W,
-    W, E, P, W, P, W, T, W, P, W,
-    W, W, E, P, E, P, E, W, P, W,
-    W, C, B, W, W, W, P, T, B, W,
-    W, W, W, W, W, W, W, W, W, W };
+{   'w', 'w', 'w', 'w', 'w', 'w', 'p', 'w', 'w', 'w',
+    'w', 'b', 'e', 'p', 'w', 'w', 'f', 'p', 'b', 'w',
+    'w', 'w', 'w', 'p', 't', 'w', 'w', 'w', 'b', 'w',
+    'w', 'b', 'p', 'e', 'w', 'w', 'w', 'w', 'p', 'w',
+    'w', 't', 'w', 'p', 'e', 'b', 'p', 'w', 'p', 'w',
+    'w', 'b', 'w', 'w', 'p', 'w', 'b', 'p', 'e', 'w',
+    'w', 'e', 'p', 'w', 'p', 'w', 't', 'w', 'p', 'w',
+    'w', 'w', 'e', 'p', 'e', 'p', 'e', 'w', 'p', 'w',
+    'w', 'c', 'b', 'w', 'w', 'w', 'p', 't', 'b', 'w',
+    'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w' };
 
     int direction;
 
