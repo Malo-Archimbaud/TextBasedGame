@@ -22,8 +22,6 @@ int main(void)
 
     do 
     {
-        checkWhatTile(&Labyrinth, &player);
-
         printf("\n\nIn which direction do you want to move?\n 0 = UP\n 1 = DOWN\n 2 = LEFT\n 3 = RIGHT\n\n");
         scanf("%d", &direction);
 

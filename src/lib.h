@@ -104,16 +104,32 @@ void checkWhatTile(Labyrinth_t * Labyrinth, Player_t * player)
 
 void trap(Player_t * player)
 {
-    int damage = rand() % 10 + 1;
+    int damage = time(NULL) % 5 + 1;
     player->health = player->health - (damage - player->defense);
-    printf("You stepped on a trap and lost %d health!\n", damage);
+    printf("\n\nYou stepped on a trap and lost %d health!\n", damage);
 }
 
 void blessing(Player_t * player)
 {
-    int health = rand() % 10 + 1;
-    player->health = player->health + health;
-    printf("You found a blessing and gained %d health!\n", health);
+    int seed = time(NULL);
+    switch(seed%3)
+    {
+        case 0:
+            player->health += 10;
+            printf("\n\nYou found a blessing and gained 10 health!\n");
+            break;
+        case 1:
+            player->attack += 1;
+            printf("\n\nYou found a blessing and gained 1 attack!\n");
+            break;
+        case 2:
+            player->defense += 1;
+            printf("\n\nYou found a blessing and gained 1 defense!\n");
+            break;
+        default:
+            printf("Something went wrong!\n");
+            break;
+    }
 }
 
 
@@ -184,21 +200,25 @@ void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction)
             case UP:
                 Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'v';
                 Player->position.x -= 1;
+                checkWhatTile(Labyrinth, Player);
                 Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'c';
                 break;
             case DOWN:
                 Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'v';
                 Player->position.x += 1;
+                checkWhatTile(Labyrinth, Player);
                 Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'c';
                 break;
             case LEFT:
                 Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'v';
                 Player->position.y -= 1;
+                checkWhatTile(Labyrinth, Player);
                 Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'c';
                 break;
             case RIGHT:
                 Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'v';
                 Player->position.y += 1;
+                checkWhatTile(Labyrinth, Player);
                 Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'c';
                 break;
             default:
