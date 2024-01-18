@@ -67,13 +67,13 @@ void printLab(Labyrinth_t * Labyrinth)
         printf("\n");
         for (int j = 0; j < 10; j++)
         {
-            if (Labyrinth->labyrinthlayout[i][j] == 'p')
+            if (Labyrinth->labyrinthlayout[i][j] == 'w' || Labyrinth->labyrinthlayout[i][j] == 'v' || Labyrinth->labyrinthlayout[i][j] == 'c')
             {
-                printf(". ");
+                printf("%c ", Labyrinth->labyrinthlayout[i][j]);
             }
             else
             {
-            printf("%c ", Labyrinth->labyrinthlayout[i][j]);
+                printf(". ");
             }
         }
     }
@@ -94,7 +94,7 @@ void checkWhatTile(Labyrinth_t * Labyrinth, Player_t * player)
             trap(player);
             break;
         case 'f':
-            //return 5;
+            fight(player, Labyrinth);
             break;
         case 'v':
             printf("You have already been here!\n");
