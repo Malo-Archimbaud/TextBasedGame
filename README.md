@@ -18,4 +18,4 @@ LosCon: die, trap or whatever.
 
 Map: could be a 2D array
 
-Add a save (gonna kms)
+Add a save
