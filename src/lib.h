@@ -1,36 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 enum TileType
 {
-    W, // Wall
-    P, // Path
-    E, // Enemy
-    B, // Blessing
-    T, // Trap
-    F, // Boss
-    C, // Characters
+    W = 0, // Wall
+    P = 1, // Path
+    E = 2, // Enemy
+    B = 3, // Blessing
+    T = 4, // Trap
+    F = 5, // Boss
+    V = 6, // Visited
+    C = 7, // Characters
 };
 
-int Labyrinth[10][10] = 
-{   W, W, W, W, W, W, P, W, W, W,
-    W, B, E, P, W, W, F, P, B, W,
-    W, W, W, P, T, W, W, W, B, W,
-    W, B, P, E, W, W, W, W, P, W,
-    W, T, W, P, E, B, P, W, P, W,
-    W, B, W, W, P, W, B, P, E, W,
-    W, E, P, W, P, W, T, W, P, W,
-    W, W, E, P, E, P, E, W, P, W,
-    W, C, B, W, W, W, P, T, B, W,
-    W, W, W, W, W, W, W, W, W, W };
+enum direction
+{
+    UP = 0,
+    DOWN = 1,
+    LEFT = 2,
+    RIGHT = 3,
+};
 
-/*
-w, w, w, w, w, w, w, ., w, w,
-w, ., ., ., w, ., ., ., ., w,
-w, w, w, ., ., w, ., w, ., w,
+typedef struct Labyrinth
+{
+    int labyrinthlayout[10][10];
+} Labyrinth_t;
+
+/* Simplfied layout of the maps, with just walls and paths.
+
+w, w, w, w, w, w, ., W, w, w,
+w, ., ., ., w, W, ., ., ., w,
+w, w, w, ., ., w, W, w, ., w,
 w, ., ., ., w, w, w, w, ., w,
-w, ., w, ., ., ., w, w, ., w,
+w, ., w, ., ., ., ., w, ., w,
 w, ., w, w, ., w, ., ., ., w,
 w, ., ., w, ., w, ., w, ., w,
 w, w, ., ., ., ., ., w, ., w,
@@ -38,14 +42,35 @@ w, ., ., w, w, w, ., ., ., w,
 w, w, w, w, w, w, w, w, w, w
 */
 
-void printLab(int lab[10][10])
+typedef struct Position
+{
+    int x;
+    int y;
+} Position_t;
+
+typedef	struct Player
+{
+    Position_t position;
+    int health;
+    int attack;
+    int defense;
+} Player_t;
+
+typedef struct Enemy
+{
+    int health;
+    int attack;
+    int defense;
+} Enemy_t;
+
+void printLab(Labyrinth_t * Labyrinth)
 {
     for (int i = 0; i < 10; i++)
     {
         printf("\n");
         for (int j = 0; j < 10; j++)
         {
-            switch(lab[i][j]){
+            switch(Labyrinth->labyrinthlayout[i][j]){
                 case 0:
                     printf("w ");
                     break;
@@ -65,9 +90,105 @@ void printLab(int lab[10][10])
                     printf("f ");
                     break;
                 case 6:
+                    printf("v ");
+                    break;
+                case 7:
                     printf("c ");
                     break;
             }
         }
+    }
+}
+
+int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction)
+{
+    switch (direction)
+    {
+        case UP:
+            if (Labyrinth->labyrinthlayout[player->position.x - 1][player->position.y] == W)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            break;
+        case DOWN:
+            if (Labyrinth->labyrinthlayout[player->position.x + 1][player->position.y] == W)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            break;
+        case LEFT:
+            if (Labyrinth->labyrinthlayout[player->position.x][player->position.y - 1] == W)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            break;
+        case RIGHT:
+            if (Labyrinth->labyrinthlayout[player->position.x][player->position.y + 1] == W)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            break;
+        default:
+            return -1;
+            break;
+    }
+}
+
+void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction)
+{
+    int legal = isWall(Labyrinth, Player, direction);
+
+    if (legal == 1)
+    {
+        printf("You can't move there!\n");
+    }
+    else if (legal == 0)
+    {
+        switch (direction)
+        {
+            case UP:
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = V;
+                Player->position.x -= 1;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = C;
+                break;
+            case DOWN:
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = V;
+                Player->position.x += 1;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = C;
+                break;
+            case LEFT:
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = V;
+                Player->position.y -= 1;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = C;
+                break;
+            case RIGHT:
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = V;
+                Player->position.y += 1;
+                Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = C;
+                break;
+            default:
+                printf("Something went wrong!\n");
+                break;
+        }
+    }
+    else
+    {
+        printf("Something went wrong!\n");
     }
 }
