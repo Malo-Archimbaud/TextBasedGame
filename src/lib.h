@@ -63,6 +63,15 @@ typedef struct Enemy
     int defense;
 } Enemy_t;
 
+void printLab(Labyrinth_t * Labyrinth);
+void checkWhatTile(Labyrinth_t * Labyrinth, Player_t * player);
+void trap(Player_t * player);
+void blessing(Player_t * player);
+int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction);
+void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction);
+
+
+
 void printLab(Labyrinth_t * Labyrinth)
 {
     for (int i = 0; i < 10; i++)
@@ -99,6 +108,46 @@ void printLab(Labyrinth_t * Labyrinth)
         }
     }
 }
+
+
+void checkWhatTile(Labyrinth_t * Labyrinth, Player_t * player)
+{
+    switch (Labyrinth->labyrinthlayout[player->position.x][player->position.y])
+    {
+        case E:
+            //return 2;
+            break;
+        case B:
+            blessing(player);
+            break;
+        case T:
+            trap(player);
+            break;
+        case F:
+            //return 5;
+            break;
+        default:
+            //return 1;
+            break;
+    }
+}
+
+void trap(Player_t * player)
+{
+    int damage = rand() % 10 + 1;
+    player->health = player->health - (damage - player->defense);
+    printf("You stepped on a trap and lost %d health!\n", damage);
+}
+
+void blessing(Player_t * player)
+{
+    int health = rand() % 10 + 1;
+    player->health = player->health + health;
+    printf("You found a blessing and gained %d health!\n", health);
+}
+
+
+
 
 int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction)
 {
