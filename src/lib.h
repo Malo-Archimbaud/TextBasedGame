@@ -225,7 +225,7 @@ void randomEvent(Labyrinth_t * Labyrinth, Player_t * Player)
 int getInput(void)
 {
     char input[50];
-    scanf("%[^\n]%*c", &input);
+    scanf("%c", &input);
     if (input[0] >= '1' && input[0] <= '9' && strlen(input) == 1)
     {
         return (int)input[0] - '0';
