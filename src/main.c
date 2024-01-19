@@ -22,8 +22,8 @@ int main(void)
 
     do 
     {
-        printf("\n\nIn which direction do you want to move?\n 0 = UP\n 1 = DOWN\n 2 = LEFT\n 3 = RIGHT\n\n");
-        scanf("%d", &direction);
+        printf("\n\nIn which direction do you want to move?\n 1 = UP\n 2 = DOWN\n 3 = LEFT\n 4 = RIGHT\n\n");
+        direction = getInput();
 
         movePlayer(&Labyrinth, &player, direction);
 
@@ -36,7 +36,7 @@ int main(void)
     }
     else
     {
-        printf("\nYou won!\n");
+        printf("\nYou won!\nYou managed to escape with %d gold\n", player.money);
     }
 
     return 0;

@@ -6,10 +6,10 @@
 // Enum for directions
 enum direction
 {
-    UP = 0,
-    DOWN = 1,
-    LEFT = 2,
-    RIGHT = 3,
+    UP = 1,
+    DOWN = 2,
+    LEFT = 3,
+    RIGHT = 4,
 };
 
 // Struct for the Labyrinth, which is a 10x10 array of char
@@ -65,6 +65,7 @@ void trap(Player_t * player);
 void blessing(Player_t * player);
 void fight(Player_t * player, Labyrinth_t * Labyrinth);
 void randomEvent(Labyrinth_t * Labyrinth, Player_t * Player);
+int getInput(void);
 int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction);
 void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction);
 
@@ -109,7 +110,7 @@ void checkWhatTile(Labyrinth_t * Labyrinth, Player_t * player)
             fight(player, Labyrinth);
             break;
         case 'v':
-            printf("You have already been here!\n");
+            printf("You have already been here, so nothing happened \n");
             break;
         case 'p':
             randomEvent(Labyrinth, player);
@@ -212,6 +213,21 @@ void randomEvent(Labyrinth_t * Labyrinth, Player_t * Player)
     }
 }
 
+
+int getInput(void)
+{
+    char input[50];
+    scanf("%[^\n]%*c", &input);
+    if (input[0] >= '1' && input[0] <= '9' && strlen(input) == 1)
+    {
+        return (int)input[0] - '0';
+    }
+    else
+    {
+        printf("Invalid input!\n");
+        getInput();
+    }
+}
 
 // Checks if the player is trying to move into a wall
 int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction)
