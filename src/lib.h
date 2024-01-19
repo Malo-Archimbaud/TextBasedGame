@@ -364,7 +364,7 @@ void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int input)
 //menu
 void menu(Labyrinth_t * Labyrinth, Player_t * Player)
 {
-    printf("Greed\n");
+    printf("Greed\n\n");
     printf("What do you want to do?\n");
     printf(" 1 = Start new game\n 2 = Load save\n 3 = Quit\n");
     int input = getInput();
