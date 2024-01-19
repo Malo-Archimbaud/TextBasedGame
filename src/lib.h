@@ -200,12 +200,12 @@ void fight(Player_t * Player, Labyrinth_t * Labyrinth)
     } while (Player->health != 0 || enemy.health != 0);
 }
 
-// Trigger a random event on empty tiles , 60% chance of nothing happening, 20% chance of fight, 10% chance of blessing, 10% chance of trap
+// Trigger a random event on empty tiles , 60% chance of nothing happening, 10% chance of fight, 10% chance of blessing, 10% chance of trap
 void randomEvent(Labyrinth_t * Labyrinth, Player_t * Player)
 {
     int seed = time(NULL)%10;
 
-    if (seed >=6 && seed <= 7)
+    if (seed == 7)
     {
         fight(Player, Labyrinth);
     }
