@@ -16,19 +16,16 @@ int main(void)
     'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w' };
 
     menu(&Labyrinth, &player);
-
     printLab(&Labyrinth);
 
     int input;
     do 
     {
         printf("\n\nWhat do you want to do?\n");
-        printf(" 1 = Go up\n 2 = go down\n 3 = go left\n 4 = go right\n 5 = display stats\n 9 = save and quit\n");
+        printf(" 1 = Go up\n 2 = go down\n 3 = go left\n 4 = go right\n 5 = display stats\n 6 = show map\n 9 = save and quit\n");
         input = getInput();
 
         action(&Labyrinth, &player, input);
-
-        printLab(&Labyrinth);
     } while (player.position.x != 0 && player.health > 0);
 
     if (player.health <= 0)

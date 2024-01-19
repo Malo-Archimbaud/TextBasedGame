@@ -72,6 +72,7 @@ void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction);
 void saveGame(Labyrinth_t * Labyrinth, Player_t * Player);
 void loadGame(Labyrinth_t * Labyrinth, Player_t * Player);
 void menu(Labyrinth_t * Labyrinth, Player_t * Player);
+void intro(void);
 
 
 // Prints the labyrinth, with the player represented by 'c', tile already visited by 'v', walls by 'w', and the rest by '.'
@@ -225,7 +226,7 @@ void randomEvent(Labyrinth_t * Labyrinth, Player_t * Player)
 int getInput(void)
 {
     char input[50];
-    scanf("%c", &input);
+    scanf("%[^\n]%*c", &input);
     if (input[0] >= '1' && input[0] <= '9' && strlen(input) == 1)
     {
         return (int)input[0] - '0';
@@ -246,6 +247,10 @@ void action(Labyrinth_t * Labyrinth, Player_t * player, int input)
     else if (input == 5)
     {
         printf("\n\nHealth: %d\nAttack: %d\nDefense: %d\nGold: %d\n", player->health, player->attack, player->defense, player->money);
+    }
+    else if (input == 6)
+    {
+        printLab(Labyrinth);
     }
     else if (input == 9)
     {
@@ -362,13 +367,14 @@ void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int input)
 //menu
 void menu(Labyrinth_t * Labyrinth, Player_t * Player)
 {
-    printf("Welcome to the Labyrinth!\n");
+    printf("Welcome Greed\n");
     printf("What do you want to do?\n");
     printf(" 1 = Start new game\n 2 = Load save\n 3 = Quit\n");
     int input = getInput();
     switch (input)
     {
         case 1:
+            intro();
             break;
         case 2:
             loadGame(Labyrinth, Player);
@@ -435,4 +441,15 @@ void loadGame(Labyrinth_t * Labyrinth, Player_t * Player)
     }
 
     fscanf(file, "%d %d %d %d %d %d", &Player->position.x, &Player->position.y, &Player->health, &Player->attack, &Player->defense, &Player->money);
+}
+
+void intro(void)
+{
+    printf("You are a young aventurer that has heard the rumour of a labyrinth filled with gold.\n");
+    printf("You have decided to go with your fellow companion, Judas.\n");
+    printf("However, you have been betrayed by Judas, and he has left you to die in the labyrinth.\n");
+    printf("You can only move one by one room, due to the wound you have.\n");
+    printf("It is said that this maze is full of monsters and traps.\n");
+    printf("However, it is also said that gods have blessed some room in here.\n");
+    printf("Fortunately, you have a map with you\n");
 }
