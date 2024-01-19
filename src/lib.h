@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 // Enum for directions
 enum direction
@@ -248,10 +249,6 @@ void action(Labyrinth_t * Labyrinth, Player_t * player, int input)
     {
         printf("\n\nHealth: %d\nAttack: %d\nDefense: %d\nGold: %d\n", player->health, player->attack, player->defense, player->money);
     }
-    else if (input == 6)
-    {
-        printLab(Labyrinth);
-    }
     else if (input == 9)
     {
         printf("\n\nYou quit the game!\n");
@@ -367,7 +364,7 @@ void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int input)
 //menu
 void menu(Labyrinth_t * Labyrinth, Player_t * Player)
 {
-    printf("Welcome Greed\n");
+    printf("Greed\n");
     printf("What do you want to do?\n");
     printf(" 1 = Start new game\n 2 = Load save\n 3 = Quit\n");
     int input = getInput();
