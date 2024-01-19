@@ -16,16 +16,17 @@ int main(void)
     'w', 'c', 'b', 'w', 'w', 'w', 'p', 't', 'b', 'w',
     'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w' };
 
-    int direction;
+    int input;
 
     printLab(&Labyrinth);
 
     do 
     {
-        printf("\n\nIn which direction do you want to move?\n 1 = UP\n 2 = DOWN\n 3 = LEFT\n 4 = RIGHT\n\n");
-        direction = getInput();
+        printf("\n\nWhat do you want to do?\n");
+        printf(" 1 = Go up\n 2 = go down\n 3 = go left\n 4 = go right\n 5 = display stats\n 9 = save and quit\n");
+        input = getInput();
 
-        movePlayer(&Labyrinth, &player, direction);
+        action(&Labyrinth, &player, input);
 
         printLab(&Labyrinth);
     } while (player.position.x != 0 && player.health != 0);

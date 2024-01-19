@@ -66,8 +66,11 @@ void blessing(Player_t * player);
 void fight(Player_t * player, Labyrinth_t * Labyrinth);
 void randomEvent(Labyrinth_t * Labyrinth, Player_t * Player);
 int getInput(void);
+void action(Labyrinth_t * Labyrinth, Player_t * Player, int input);
 int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction);
 void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction);
+void saveGame(Labyrinth_t * Labyrinth, Player_t * Player);
+void loadGame(Labyrinth_t * Labyrinth, Player_t * Player);
 
 
 // Prints the labyrinth, with the player represented by 'c', tile already visited by 'v', walls by 'w', and the rest by '.'
@@ -229,6 +232,28 @@ int getInput(void)
     }
 }
 
+void action(Labyrinth_t * Labyrinth, Player_t * player, int input)
+{
+    if (input >= 1 && input <= 4)
+    {
+        movePlayer(Labyrinth, player, input);
+    }
+    else if (input == 5)
+    {
+        printf("\n\nHealth: %d\nAttack: %d\nDefense: %d\nGold: %d\n", player->health, player->attack, player->defense, player->money);
+    }
+    else if (input == 9)
+    {
+        printf("\n\nYou quit the game!\n");
+        saveGame(Labyrinth, player);
+        exit(0);
+    }
+    else
+    {
+        printf("\n\nInvalid input!\n");
+    }
+}
+
 // Checks if the player is trying to move into a wall
 int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction)
 {
@@ -281,9 +306,9 @@ int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction)
 }
 
 // Moves the player in the direction specified, if possible
-void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction)
+void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int input)
 {
-    int legal = isWall(Labyrinth, Player, direction);
+    int legal = isWall(Labyrinth, Player, input);
 
     if (legal == 1)
     {
@@ -291,7 +316,7 @@ void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction)
     }
     else if (legal == 0)
     {
-        switch (direction)
+        switch (input)
         {
             case UP:
                 Labyrinth->labyrinthlayout[Player->position.x][Player->position.y] = 'v';
@@ -326,4 +351,27 @@ void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction)
     {
         printf("Something went wrong!\n");
     }
+}
+
+void saveGame(Labyrinth_t * Labyrinth, Player_t * Player)
+{
+    FILE * file;
+    file = fopen("save.txt", "w");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            fprintf(file, "%c ", Labyrinth->labyrinthlayout[i][j]);
+        }
+        fprintf(file, "\n");
+    }
+
+    fprintf(file, "\n");
+    fprintf(file, "%d %d %d %d %d %d", Player->position.x, Player->position.y, Player->health, Player->attack, Player->defense, Player->money);
 }
