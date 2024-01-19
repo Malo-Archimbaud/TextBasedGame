@@ -195,9 +195,9 @@ void fight(Player_t * Player, Labyrinth_t * Labyrinth)
             printf("\nYou died!\n");
             return;
         }
+        printf("\nYou have %d health left!\n", Player->health);
+        printf("\nThe enemy has %d health left!\n", enemy.health);
     } while (Player->health != 0 || enemy.health != 0);
-    
-    printf("\nYou have %d health left!\n", Player->health);
 }
 
 // Trigger a random event on empty tiles , 60% chance of nothing happening, 20% chance of fight, 10% chance of blessing, 10% chance of trap
@@ -371,6 +371,7 @@ void menu(Labyrinth_t * Labyrinth, Player_t * Player)
     switch (input)
     {
         case 1:
+            system("cls");
             intro();
             break;
         case 2:
