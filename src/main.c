@@ -2,12 +2,12 @@
 
 int main(void)
 {
-    Player_t player = { 8, 1, 20, 5, 2 };
+    Player_t player = { 8, 1, 20, 5, 2, 0 };
 
     Labyrinth_t Labyrinth = 
 {   'w', 'w', 'w', 'w', 'w', 'w', 'p', 'w', 'w', 'w',
     'w', 'b', 'e', 'p', 'w', 'w', 'f', 'p', 'b', 'w',
-    'w', 'w', 'w', 'p', 't', 'w', 'w', 'w', 'b', 'w',
+    'w', 'w', 'w', 'p', 'p', 'b', 'p', 'w', 'b', 'w',
     'w', 'b', 'p', 'e', 'w', 'w', 'w', 'w', 'p', 'w',
     'w', 't', 'w', 'p', 'e', 'b', 'p', 'w', 'p', 'w',
     'w', 'b', 'w', 'w', 'p', 'w', 'b', 'p', 'e', 'w',
@@ -29,6 +29,15 @@ int main(void)
 
         printLab(&Labyrinth);
     } while (player.position.x != 0 && player.health != 0);
+
+    if (player.health <= 0)
+    {
+        printf("\nYou died!\n");
+    }
+    else
+    {
+        printf("\nYou won!\n");
+    }
 
     return 0;
 }
