@@ -29,11 +29,11 @@ int main(void)
         action(&Labyrinth, &player, input);
 
         printLab(&Labyrinth);
-    } while (player.position.x != 0 && player.health != 0);
+    } while (player.position.x != 0 && player.health > 0);
 
     if (player.health <= 0)
     {
-        printf("\nYou died!\n");
+        printf("\nYou couldn't escape the labyrinth, leaving %d gold behind you\n", player.money);
     }
     else
     {

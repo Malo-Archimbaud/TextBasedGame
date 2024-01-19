@@ -182,6 +182,10 @@ void fight(Player_t * Player, Labyrinth_t * Labyrinth)
             break;
         }
         damage = enemy.attack - Player->defense;
+        if (damage < 0)
+        {
+            damage = 0;
+        }
         Player->health -= damage;
         printf("\nThe enemy dealt %d damage to you!\n", damage);
         if (Player->health <= 0)
