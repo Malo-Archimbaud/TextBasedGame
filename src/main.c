@@ -2,8 +2,7 @@
 
 int main(void)
 {
-    Player_t player = { 8, 1, 20, 5, 2, 0 };
-
+    Player_t player = { 8, 1, 20, 5, 2, 0 };    
     Labyrinth_t Labyrinth = 
 {   'w', 'w', 'w', 'w', 'w', 'w', 'p', 'w', 'w', 'w',
     'w', 'b', 'e', 'p', 'w', 'w', 'f', 'p', 'b', 'w',
@@ -16,10 +15,11 @@ int main(void)
     'w', 'c', 'b', 'w', 'w', 'w', 'p', 't', 'b', 'w',
     'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w' };
 
-    int input;
+    menu(&Labyrinth, &player);
 
     printLab(&Labyrinth);
 
+    int input;
     do 
     {
         printf("\n\nWhat do you want to do?\n");

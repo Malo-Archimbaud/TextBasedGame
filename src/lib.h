@@ -17,7 +17,7 @@ enum direction
 // w = wall, . = path, e = enemy, b = blessing, t = trap, f = final boss, v = visited, c = current
 typedef struct Labyrinth
 {
-    int labyrinthlayout[10][10];
+    char labyrinthlayout[10][10];
 } Labyrinth_t;
 
 /* Simplfied layout of the maps, with just walls and paths.
@@ -41,7 +41,7 @@ typedef struct Position
     int y;
 } Position_t;
 
-// Player, you can initialize how you want in the main.c
+// Player
 typedef	struct Player
 {
     Position_t position;
@@ -71,6 +71,7 @@ int isWall(Labyrinth_t * Labyrinth, Player_t * player, int direction);
 void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int direction);
 void saveGame(Labyrinth_t * Labyrinth, Player_t * Player);
 void loadGame(Labyrinth_t * Labyrinth, Player_t * Player);
+void menu(Labyrinth_t * Labyrinth, Player_t * Player);
 
 
 // Prints the labyrinth, with the player represented by 'c', tile already visited by 'v', walls by 'w', and the rest by '.'
@@ -353,6 +354,32 @@ void movePlayer(Labyrinth_t * Labyrinth, Player_t * Player, int input)
     }
 }
 
+
+//menu
+void menu(Labyrinth_t * Labyrinth, Player_t * Player)
+{
+    printf("Welcome to the Labyrinth!\n");
+    printf("What do you want to do?\n");
+    printf(" 1 = Start new game\n 2 = Load save\n 3 = Quit\n");
+    int input = getInput();
+    switch (input)
+    {
+        case 1:
+            break;
+        case 2:
+            loadGame(Labyrinth, Player);
+            break;
+        case 3:
+            printf("\n\nYou quit the game!\n");
+            exit(0);
+            break;
+        default:
+            printf("\n\nInvalid input!\n");
+            menu(Labyrinth, Player);
+            break;
+    }
+}
+
 void saveGame(Labyrinth_t * Labyrinth, Player_t * Player)
 {
     FILE * file;
@@ -367,11 +394,41 @@ void saveGame(Labyrinth_t * Labyrinth, Player_t * Player)
     {
         for (int j = 0; j < 10; j++)
         {
-            fprintf(file, "%c ", Labyrinth->labyrinthlayout[i][j]);
+            fprintf(file, "%c", Labyrinth->labyrinthlayout[i][j]);
         }
         fprintf(file, "\n");
     }
-
     fprintf(file, "\n");
+
     fprintf(file, "%d %d %d %d %d %d", Player->position.x, Player->position.y, Player->health, Player->attack, Player->defense, Player->money);
+}
+
+void loadGame(Labyrinth_t * Labyrinth, Player_t * Player)
+{
+    FILE * file;
+    file = fopen("save.txt", "r");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+
+    char c;
+    int i = 0;
+    int j = 0;
+    while ((c = fgetc(file)) != EOF && i < 10)
+    {
+        if (c == '\n')
+        {
+            i++;
+            j = 0;
+        }
+        else
+        {   
+            Labyrinth->labyrinthlayout[i][j] = c;
+            j++;
+        }
+    }
+
+    fscanf(file, "%d %d %d %d %d %d", &Player->position.x, &Player->position.y, &Player->health, &Player->attack, &Player->defense, &Player->money);
 }
